@@ -1,0 +1,23 @@
+services:
+akr-llm:
+container_name: akr-llm
+image: lmsysorg/sglang:v0.5.2-cu126
+restart: unless-stopped
+deploy:
+resources:
+reservations:
+devices:
+- capabilities: [gpu]
+shm_size: "32g"
+ipc: host
+ports:
+- "4003:80"
+volumes:
+- /root/.cache/huggingface:/root/.cache/huggingface
+command: >
+python3 -m sglang.launch_server
+--model-path Qwen/Qwen3-8B
+--host 0.0.0.0
+--port 80
+--api-key 0867ef95-441a-4cda-b8ac-465d5e0716a6
+--reasoning-parser qwen3
